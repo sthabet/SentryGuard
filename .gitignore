@@ -1,0 +1,14 @@
+# macOS
+.DS_Store
+
+# Xcode
+DerivedData/
+xcuserdata/
+*.xcuserstate
+.build/
+*.dSYM
+*.dSYM.zip
+*.ipa
+
+# Claude Code local session state (not shared project config)
+.claude/

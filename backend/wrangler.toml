@@ -1,0 +1,22 @@
+name = "sentryguard-worker"
+main = "src/index.ts"
+compatibility_date = "2024-09-23"
+
+# Non-secret configuration. Safe to commit.
+[vars]
+TESLA_FLEET_API_BASE_URL = "https://fleet-api.prd.na.vn.cloud.tesla.com"
+TESLA_AUTH_BASE_URL = "https://auth.tesla.com"
+
+# Secrets — never committed. Set with `wrangler secret put <NAME>` (production) or in a
+# local, gitignored `.dev.vars` file (see .dev.vars.example) for `wrangler dev`.
+#
+#   TESLA_CLIENT_ID      — Tesla Developer app client ID (matches the iOS app's TeslaAuthService)
+#   TESLA_CLIENT_SECRET  — Tesla Developer app client secret (server-side only, never in the iOS app)
+#   TESLA_PUBLIC_KEY_PEM — PEM-encoded public key served at the Tesla domain-verification well-known path
+#
+#   APNS_KEY_P8          — contents of the .p8 Auth Key downloaded from Apple Developer
+#                           (Certificates, Identifiers & Profiles > Keys), PKCS#8 PEM format
+#   APNS_KEY_ID           — the 10-character Key ID for that .p8 key
+#   APNS_TEAM_ID          — Apple Developer Team ID
+#   APNS_BUNDLE_ID        — iOS app bundle identifier (com.sentryguard.app), sent as apns-topic
+#   APNS_DEVICE_TOKEN     — target device's APNs token (single-user MVP; see index.ts comment)

@@ -1,0 +1,874 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		00FD4C4D1C28CC03E1154A8F /* SentryGuardWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB06C9C0CC05DE12F439EE9 /* SentryGuardWidget.swift */; };
+		05EE3ED7A681A51E1B42B05E /* SecurityManagerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00CEB25CF8761FA3B04D53DD /* SecurityManagerTests.swift */; };
+		145F32B9D056CA785837A507 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A429E4A68C83850B9F1D48 /* KeychainService.swift */; };
+		164BECD40340C66715492487 /* LockScreenWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC8E5022BF270C0FFF1EDA5 /* LockScreenWidgetView.swift */; };
+		2844831BDBE1116ED9320C75 /* SettingsViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D9B1F7452975AEB6EE830046 /* SettingsViewModelTests.swift */; };
+		2D7504BF55A8F04B1A685168 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 08B2875E53A50F4C3D20C14B /* SwiftUI.framework */; };
+		32F042318D8DCB6D48277928 /* AppSettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5CA847CA1F4148E2EA8814E /* AppSettingsStore.swift */; };
+		38E580E476FD0A26D9300965 /* ConfirmationModalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1059020DA73F8C462988ACDA /* ConfirmationModalViewModel.swift */; };
+		3A8F94C62A10181B6FC376E7 /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 00FD2B90F3BDBA5B33AF5BF0 /* SettingsViewModel.swift */; };
+		3D0374C53FF34DF8378C645D /* WidgetVehicleCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF1351BBCA88DA413FFE566 /* WidgetVehicleCache.swift */; };
+		3EEB6B86F66F2FAB5F60A00C /* LockScreenWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DAC8E5022BF270C0FFF1EDA5 /* LockScreenWidgetView.swift */; };
+		40064B39819FA11F5EA2E33C /* TeslaAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0B7D9268D88D1AD1F66A804 /* TeslaAuthService.swift */; };
+		418F1B3D7AA402C6E5B456AE /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 2A4BC6E1E5DF824790322385 /* WidgetKit.framework */; };
+		437CBECB8F55D7956F9C5D6F /* ControlButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53AE33C53034E9D86DE0081E /* ControlButton.swift */; };
+		4716ED1F31FD4339E8544A8E /* WidgetVehicleCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF1351BBCA88DA413FFE566 /* WidgetVehicleCache.swift */; };
+		4AFAD23F0231948ED9B26CF7 /* ConfirmationModalViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = A2FF1C020AE04980DD2ABC95 /* ConfirmationModalViewModelTests.swift */; };
+		4EFE010072226D600D3B1324 /* ConfirmationModalView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EC9EDCB903F1E093803E445D /* ConfirmationModalView.swift */; };
+		51361E72FEBC2A55654EBFD1 /* SentryGuardWidget.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9EB06C9C0CC05DE12F439EE9 /* SentryGuardWidget.swift */; };
+		55BCDF66A346A99803292EFB /* TeslaApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = 01699B0244655B16B9DE44C7 /* TeslaApiClient.swift */; };
+		57008E16E9713DFD96750AE4 /* SentryGuardApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = FFB80D4D19C336D2BFFFD3C0 /* SentryGuardApp.swift */; };
+		5AD40C71BA7A947A47EC7B02 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 7A8986F342D3435E891A61B3 /* ContentView.swift */; };
+		5D1D23F1CE6EFDC46EAC9781 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8E114BE3E419B962E32F21C0 /* Assets.xcassets */; };
+		5DCC17D28D95F4A33BD7D386 /* MockSecurityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1D687EACB46408BCA155F417 /* MockSecurityManager.swift */; };
+		6102C89FD4E4382A651A7D5F /* MockTeslaApiClient.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5684F7158523AA893C39D53 /* MockTeslaApiClient.swift */; };
+		641A3A940B89F27A492D486A /* WidgetVehicleStoreTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9B843EF16027384F8045926B /* WidgetVehicleStoreTests.swift */; };
+		6ABF4D02CCA52641998918BD /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 02D212C0FB5A4009908DDF81 /* SettingsView.swift */; };
+		6AC7E784367248415F8A5AC4 /* SecurityManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3EFD2538A613FFE4DF6697B1 /* SecurityManager.swift */; };
+		705D97D1B2B9BDFF4102B060 /* KeychainServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 04C05B661E0B7ABEC56375D1 /* KeychainServiceTests.swift */; };
+		7FFFC0B9E2EC0AD36F162757 /* TeslaAuthServiceTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 347631D0DE55002986BA3879 /* TeslaAuthServiceTests.swift */; };
+		8697CA08FCCA1778039811DC /* WidgetVehicleCache.swift in Sources */ = {isa = PBXBuildFile; fileRef = 6CF1351BBCA88DA413FFE566 /* WidgetVehicleCache.swift */; };
+		9005CAFCD8FFBCA6702BABC3 /* DashboardView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C65FB44FE2C20F6EBA106D7C /* DashboardView.swift */; };
+		A213C472C58790DF6E2BFC69 /* StatusMessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 50FED86058AA95A3FD464937 /* StatusMessageView.swift */; };
+		A90037AAEFEFADD12D59A5F9 /* TeslaModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B874812EF8D3AA8E3A931E /* TeslaModels.swift */; };
+		AD8C6C8023D061A3839CACF9 /* TeslaApiClientTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = F0D83D003A6E02433D11C2E2 /* TeslaApiClientTests.swift */; };
+		B215B6CD880B6DD3CCB6DC30 /* TeslaModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B874812EF8D3AA8E3A931E /* TeslaModels.swift */; };
+		B4BDF80C1B3035C33D4F0481 /* SentryGuardWidget.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = A2C18674348199830FCA4E62 /* SentryGuardWidget.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
+		B8D61BE3E2E0198CA9256A8E /* MockAppSettingsStore.swift in Sources */ = {isa = PBXBuildFile; fileRef = A7E643065E139AB5F26E1E52 /* MockAppSettingsStore.swift */; };
+		BD3A6F37CF8F99118AB421E9 /* ContentViewTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = B21FBCA46C69B02E89C7970F /* ContentViewTests.swift */; };
+		C227AFD140345C5BABA1E538 /* DashboardViewModelTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 5673FBD776A0DB6214608587 /* DashboardViewModelTests.swift */; };
+		E8A99974670033C4E51E3122 /* TeslaModels.swift in Sources */ = {isa = PBXBuildFile; fileRef = C3B874812EF8D3AA8E3A931E /* TeslaModels.swift */; };
+		E94EC8BA47B5E43ABE93A5DF /* SentryGuardWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = A5358656182251492CA1B6B1 /* SentryGuardWidgetBundle.swift */; };
+		F4019DFA9B68E1838D4EF1E3 /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A429E4A68C83850B9F1D48 /* KeychainService.swift */; };
+		F568963C766A2B418BB48F70 /* MockTeslaAuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = A1AEF7808344E50F81C41544 /* MockTeslaAuthService.swift */; };
+		F67509229397BEC924039A6C /* DashboardViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 65CA6098D6F008D6E35F253C /* DashboardViewModel.swift */; };
+		FA0D41B7B4C338FF3BE38FCA /* WidgetTimelineProviderTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = E6A8172686AA3B961A107080 /* WidgetTimelineProviderTests.swift */; };
+		FB6C949DB60EC755AB7C45C1 /* TeslaOAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 84F35982E7377D3F4999A1D9 /* TeslaOAuthView.swift */; };
+		FCB157D6C2F88A4EC43D43ED /* KeychainService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 36A429E4A68C83850B9F1D48 /* KeychainService.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		2E691481F4388BCF4C98A23C /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EBEBC5250E4E41AD395CB561 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 0ACD44ED5DAD5DA71DA9C6A7;
+			remoteInfo = SentryGuard;
+		};
+		B6AFC5DBB2EA395487729079 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = EBEBC5250E4E41AD395CB561 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 936954A36643B345401FCF2C;
+			remoteInfo = SentryGuardWidget;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXCopyFilesBuildPhase section */
+		2C2F1156D5D4AFF63BA7EE50 /* Embed Foundation Extensions */ = {
+			isa = PBXCopyFilesBuildPhase;
+			buildActionMask = 2147483647;
+			dstPath = "";
+			dstSubfolderSpec = 13;
+			files = (
+				B4BDF80C1B3035C33D4F0481 /* SentryGuardWidget.appex in Embed Foundation Extensions */,
+			);
+			name = "Embed Foundation Extensions";
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXCopyFilesBuildPhase section */
+
+/* Begin PBXFileReference section */
+		00CEB25CF8761FA3B04D53DD /* SecurityManagerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityManagerTests.swift; sourceTree = "<group>"; };
+		00FD2B90F3BDBA5B33AF5BF0 /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		01699B0244655B16B9DE44C7 /* TeslaApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeslaApiClient.swift; sourceTree = "<group>"; };
+		02D212C0FB5A4009908DDF81 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		04C05B661E0B7ABEC56375D1 /* KeychainServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainServiceTests.swift; sourceTree = "<group>"; };
+		08B2875E53A50F4C3D20C14B /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
+		1059020DA73F8C462988ACDA /* ConfirmationModalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationModalViewModel.swift; sourceTree = "<group>"; };
+		1D687EACB46408BCA155F417 /* MockSecurityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockSecurityManager.swift; sourceTree = "<group>"; };
+		2A4BC6E1E5DF824790322385 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
+		343A2F48C84A9E9E0A5B8449 /* SentryGuard.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SentryGuard.entitlements; sourceTree = "<group>"; };
+		347631D0DE55002986BA3879 /* TeslaAuthServiceTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeslaAuthServiceTests.swift; sourceTree = "<group>"; };
+		366970F9E64A3969A0CD29F9 /* SentryGuardWidgetTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SentryGuardWidgetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		36A429E4A68C83850B9F1D48 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
+		3EFD2538A613FFE4DF6697B1 /* SecurityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityManager.swift; sourceTree = "<group>"; };
+		4256B4EFE337E5D047B9B1B9 /* SentryGuard.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SentryGuard.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		50FED86058AA95A3FD464937 /* StatusMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMessageView.swift; sourceTree = "<group>"; };
+		53AE33C53034E9D86DE0081E /* ControlButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlButton.swift; sourceTree = "<group>"; };
+		5673FBD776A0DB6214608587 /* DashboardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModelTests.swift; sourceTree = "<group>"; };
+		65CA6098D6F008D6E35F253C /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
+		6CF1351BBCA88DA413FFE566 /* WidgetVehicleCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetVehicleCache.swift; sourceTree = "<group>"; };
+		7A8986F342D3435E891A61B3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		844CE1AE52877C123CEF9165 /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
+		84F35982E7377D3F4999A1D9 /* TeslaOAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeslaOAuthView.swift; sourceTree = "<group>"; };
+		8E114BE3E419B962E32F21C0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		9680265CF58B3E1C09096543 /* SentryGuardWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SentryGuardWidget.entitlements; sourceTree = "<group>"; };
+		9B843EF16027384F8045926B /* WidgetVehicleStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetVehicleStoreTests.swift; sourceTree = "<group>"; };
+		9EB06C9C0CC05DE12F439EE9 /* SentryGuardWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentryGuardWidget.swift; sourceTree = "<group>"; };
+		A1AEF7808344E50F81C41544 /* MockTeslaAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTeslaAuthService.swift; sourceTree = "<group>"; };
+		A2C18674348199830FCA4E62 /* SentryGuardWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = SentryGuardWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2FF1C020AE04980DD2ABC95 /* ConfirmationModalViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationModalViewModelTests.swift; sourceTree = "<group>"; };
+		A5358656182251492CA1B6B1 /* SentryGuardWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentryGuardWidgetBundle.swift; sourceTree = "<group>"; };
+		A7E643065E139AB5F26E1E52 /* MockAppSettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAppSettingsStore.swift; sourceTree = "<group>"; };
+		B0FEB167A8D0F7273C99B515 /* SentryGuardTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SentryGuardTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		B21FBCA46C69B02E89C7970F /* ContentViewTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentViewTests.swift; sourceTree = "<group>"; };
+		B9FCF43FC8364B476757D3A3 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		C3B874812EF8D3AA8E3A931E /* TeslaModels.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeslaModels.swift; sourceTree = "<group>"; };
+		C5684F7158523AA893C39D53 /* MockTeslaApiClient.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTeslaApiClient.swift; sourceTree = "<group>"; };
+		C5CA847CA1F4148E2EA8814E /* AppSettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppSettingsStore.swift; sourceTree = "<group>"; };
+		C65FB44FE2C20F6EBA106D7C /* DashboardView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardView.swift; sourceTree = "<group>"; };
+		D9B1F7452975AEB6EE830046 /* SettingsViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModelTests.swift; sourceTree = "<group>"; };
+		DAC8E5022BF270C0FFF1EDA5 /* LockScreenWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenWidgetView.swift; sourceTree = "<group>"; };
+		E6A8172686AA3B961A107080 /* WidgetTimelineProviderTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetTimelineProviderTests.swift; sourceTree = "<group>"; };
+		EC9EDCB903F1E093803E445D /* ConfirmationModalView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationModalView.swift; sourceTree = "<group>"; };
+		F0B7D9268D88D1AD1F66A804 /* TeslaAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeslaAuthService.swift; sourceTree = "<group>"; };
+		F0D83D003A6E02433D11C2E2 /* TeslaApiClientTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeslaApiClientTests.swift; sourceTree = "<group>"; };
+		F37B6408807D4A8FA7FDA4AA /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		FFB80D4D19C336D2BFFFD3C0 /* SentryGuardApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentryGuardApp.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		517C61A84E6E5B4967ED0F4E /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				418F1B3D7AA402C6E5B456AE /* WidgetKit.framework in Frameworks */,
+				2D7504BF55A8F04B1A685168 /* SwiftUI.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		2AC90ABDF217B62B18193FE3 /* Components */ = {
+			isa = PBXGroup;
+			children = (
+				844CE1AE52877C123CEF9165 /* .gitkeep */,
+				EC9EDCB903F1E093803E445D /* ConfirmationModalView.swift */,
+				1059020DA73F8C462988ACDA /* ConfirmationModalViewModel.swift */,
+				53AE33C53034E9D86DE0081E /* ControlButton.swift */,
+				50FED86058AA95A3FD464937 /* StatusMessageView.swift */,
+			);
+			path = Components;
+			sourceTree = "<group>";
+		};
+		7AF0A3634DD936D8879268A3 = {
+			isa = PBXGroup;
+			children = (
+				9170AF06AB8F41DB2C62BC86 /* SentryGuard */,
+				F1E3B3C090D20DD464C912FF /* SentryGuardTests */,
+				A534454A5DE09A9410192C4D /* SentryGuardWidget */,
+				8ADFFAC873014D70CE8C9FEE /* Frameworks */,
+				F7F34C59D24E38E3A775BBC1 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		83076F6ECCBBDD93222AC17E /* Services */ = {
+			isa = PBXGroup;
+			children = (
+				C5CA847CA1F4148E2EA8814E /* AppSettingsStore.swift */,
+				36A429E4A68C83850B9F1D48 /* KeychainService.swift */,
+				A7E643065E139AB5F26E1E52 /* MockAppSettingsStore.swift */,
+				1D687EACB46408BCA155F417 /* MockSecurityManager.swift */,
+				C5684F7158523AA893C39D53 /* MockTeslaApiClient.swift */,
+				A1AEF7808344E50F81C41544 /* MockTeslaAuthService.swift */,
+				3EFD2538A613FFE4DF6697B1 /* SecurityManager.swift */,
+				01699B0244655B16B9DE44C7 /* TeslaApiClient.swift */,
+				F0B7D9268D88D1AD1F66A804 /* TeslaAuthService.swift */,
+				C3B874812EF8D3AA8E3A931E /* TeslaModels.swift */,
+				6CF1351BBCA88DA413FFE566 /* WidgetVehicleCache.swift */,
+			);
+			path = Services;
+			sourceTree = "<group>";
+		};
+		8ADFFAC873014D70CE8C9FEE /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				08B2875E53A50F4C3D20C14B /* SwiftUI.framework */,
+				2A4BC6E1E5DF824790322385 /* WidgetKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		9170AF06AB8F41DB2C62BC86 /* SentryGuard */ = {
+			isa = PBXGroup;
+			children = (
+				B9FCF43FC8364B476757D3A3 /* Info.plist */,
+				923111D6AB0F397CEA9EA73C /* App */,
+				A541045C1D806B5423897B0B /* Resources */,
+				83076F6ECCBBDD93222AC17E /* Services */,
+				E0EB3F7FDE97E7C0587E82FE /* Views */,
+			);
+			path = SentryGuard;
+			sourceTree = "<group>";
+		};
+		923111D6AB0F397CEA9EA73C /* App */ = {
+			isa = PBXGroup;
+			children = (
+				343A2F48C84A9E9E0A5B8449 /* SentryGuard.entitlements */,
+				FFB80D4D19C336D2BFFFD3C0 /* SentryGuardApp.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		9CEE5A5655F5580945FAA9F7 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				02D212C0FB5A4009908DDF81 /* SettingsView.swift */,
+				00FD2B90F3BDBA5B33AF5BF0 /* SettingsViewModel.swift */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		A534454A5DE09A9410192C4D /* SentryGuardWidget */ = {
+			isa = PBXGroup;
+			children = (
+				F37B6408807D4A8FA7FDA4AA /* Info.plist */,
+				9680265CF58B3E1C09096543 /* SentryGuardWidget.entitlements */,
+				9EB06C9C0CC05DE12F439EE9 /* SentryGuardWidget.swift */,
+				A5358656182251492CA1B6B1 /* SentryGuardWidgetBundle.swift */,
+				BE54795E262FD9079094A99F /* Views */,
+			);
+			path = SentryGuardWidget;
+			sourceTree = "<group>";
+		};
+		A541045C1D806B5423897B0B /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				8E114BE3E419B962E32F21C0 /* Assets.xcassets */,
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		BE54795E262FD9079094A99F /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				DAC8E5022BF270C0FFF1EDA5 /* LockScreenWidgetView.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		D63F3B3B7277790701D6F1BF /* Dashboard */ = {
+			isa = PBXGroup;
+			children = (
+				C65FB44FE2C20F6EBA106D7C /* DashboardView.swift */,
+				65CA6098D6F008D6E35F253C /* DashboardViewModel.swift */,
+			);
+			path = Dashboard;
+			sourceTree = "<group>";
+		};
+		DB40FCFB0E227272C6B4F15B /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				84F35982E7377D3F4999A1D9 /* TeslaOAuthView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
+		E0EB3F7FDE97E7C0587E82FE /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				7A8986F342D3435E891A61B3 /* ContentView.swift */,
+				DB40FCFB0E227272C6B4F15B /* Auth */,
+				2AC90ABDF217B62B18193FE3 /* Components */,
+				D63F3B3B7277790701D6F1BF /* Dashboard */,
+				9CEE5A5655F5580945FAA9F7 /* Settings */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		F1E3B3C090D20DD464C912FF /* SentryGuardTests */ = {
+			isa = PBXGroup;
+			children = (
+				A2FF1C020AE04980DD2ABC95 /* ConfirmationModalViewModelTests.swift */,
+				B21FBCA46C69B02E89C7970F /* ContentViewTests.swift */,
+				5673FBD776A0DB6214608587 /* DashboardViewModelTests.swift */,
+				04C05B661E0B7ABEC56375D1 /* KeychainServiceTests.swift */,
+				00CEB25CF8761FA3B04D53DD /* SecurityManagerTests.swift */,
+				D9B1F7452975AEB6EE830046 /* SettingsViewModelTests.swift */,
+				F0D83D003A6E02433D11C2E2 /* TeslaApiClientTests.swift */,
+				347631D0DE55002986BA3879 /* TeslaAuthServiceTests.swift */,
+				E6A8172686AA3B961A107080 /* WidgetTimelineProviderTests.swift */,
+				9B843EF16027384F8045926B /* WidgetVehicleStoreTests.swift */,
+			);
+			path = SentryGuardTests;
+			sourceTree = "<group>";
+		};
+		F7F34C59D24E38E3A775BBC1 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				4256B4EFE337E5D047B9B1B9 /* SentryGuard.app */,
+				B0FEB167A8D0F7273C99B515 /* SentryGuardTests.xctest */,
+				A2C18674348199830FCA4E62 /* SentryGuardWidget.appex */,
+				366970F9E64A3969A0CD29F9 /* SentryGuardWidgetTests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		0ACD44ED5DAD5DA71DA9C6A7 /* SentryGuard */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = DBA47A3D87177F3E40E18185 /* Build configuration list for PBXNativeTarget "SentryGuard" */;
+			buildPhases = (
+				A96FEA96EF3A8494DD3FBF70 /* Sources */,
+				C195EB47256189C4A83DD5B6 /* Resources */,
+				2C2F1156D5D4AFF63BA7EE50 /* Embed Foundation Extensions */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				601E316680FB0052C007C59E /* PBXTargetDependency */,
+			);
+			name = SentryGuard;
+			packageProductDependencies = (
+			);
+			productName = SentryGuard;
+			productReference = 4256B4EFE337E5D047B9B1B9 /* SentryGuard.app */;
+			productType = "com.apple.product-type.application";
+		};
+		936954A36643B345401FCF2C /* SentryGuardWidget */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = AF3C12314A22464908F9E644 /* Build configuration list for PBXNativeTarget "SentryGuardWidget" */;
+			buildPhases = (
+				02ED206B3C47D047D6335AE9 /* Sources */,
+				517C61A84E6E5B4967ED0F4E /* Frameworks */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SentryGuardWidget;
+			packageProductDependencies = (
+			);
+			productName = SentryGuardWidget;
+			productReference = A2C18674348199830FCA4E62 /* SentryGuardWidget.appex */;
+			productType = "com.apple.product-type.app-extension";
+		};
+		97102E2A804822F3AA615722 /* SentryGuardWidgetTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 56DD8F41A0DF34436C212C9E /* Build configuration list for PBXNativeTarget "SentryGuardWidgetTests" */;
+			buildPhases = (
+				F3F34AD94E5039513A1A3FF3 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = SentryGuardWidgetTests;
+			packageProductDependencies = (
+			);
+			productName = SentryGuardWidgetTests;
+			productReference = 366970F9E64A3969A0CD29F9 /* SentryGuardWidgetTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		F23D8FBA9ADFB9C9C679175F /* SentryGuardTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 77FC5FDEC0179BBB2A5E93F3 /* Build configuration list for PBXNativeTarget "SentryGuardTests" */;
+			buildPhases = (
+				863CD6C3354CDF00BB25272B /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				F7D27F3E9AF4BB7AC5F94CB3 /* PBXTargetDependency */,
+			);
+			name = SentryGuardTests;
+			packageProductDependencies = (
+			);
+			productName = SentryGuardTests;
+			productReference = B0FEB167A8D0F7273C99B515 /* SentryGuardTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		EBEBC5250E4E41AD395CB561 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+				LastUpgradeCheck = 1430;
+				TargetAttributes = {
+				};
+			};
+			buildConfigurationList = 295575AA244F5862A8B8F07B /* Build configuration list for PBXProject "SentryGuard" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				Base,
+				en,
+			);
+			mainGroup = 7AF0A3634DD936D8879268A3;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = F7F34C59D24E38E3A775BBC1 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				0ACD44ED5DAD5DA71DA9C6A7 /* SentryGuard */,
+				936954A36643B345401FCF2C /* SentryGuardWidget */,
+				F23D8FBA9ADFB9C9C679175F /* SentryGuardTests */,
+				97102E2A804822F3AA615722 /* SentryGuardWidgetTests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		C195EB47256189C4A83DD5B6 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				5D1D23F1CE6EFDC46EAC9781 /* Assets.xcassets in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		02ED206B3C47D047D6335AE9 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				F4019DFA9B68E1838D4EF1E3 /* KeychainService.swift in Sources */,
+				164BECD40340C66715492487 /* LockScreenWidgetView.swift in Sources */,
+				00FD4C4D1C28CC03E1154A8F /* SentryGuardWidget.swift in Sources */,
+				E94EC8BA47B5E43ABE93A5DF /* SentryGuardWidgetBundle.swift in Sources */,
+				A90037AAEFEFADD12D59A5F9 /* TeslaModels.swift in Sources */,
+				3D0374C53FF34DF8378C645D /* WidgetVehicleCache.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		863CD6C3354CDF00BB25272B /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				4AFAD23F0231948ED9B26CF7 /* ConfirmationModalViewModelTests.swift in Sources */,
+				BD3A6F37CF8F99118AB421E9 /* ContentViewTests.swift in Sources */,
+				C227AFD140345C5BABA1E538 /* DashboardViewModelTests.swift in Sources */,
+				705D97D1B2B9BDFF4102B060 /* KeychainServiceTests.swift in Sources */,
+				05EE3ED7A681A51E1B42B05E /* SecurityManagerTests.swift in Sources */,
+				2844831BDBE1116ED9320C75 /* SettingsViewModelTests.swift in Sources */,
+				AD8C6C8023D061A3839CACF9 /* TeslaApiClientTests.swift in Sources */,
+				7FFFC0B9E2EC0AD36F162757 /* TeslaAuthServiceTests.swift in Sources */,
+				641A3A940B89F27A492D486A /* WidgetVehicleStoreTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		A96FEA96EF3A8494DD3FBF70 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				32F042318D8DCB6D48277928 /* AppSettingsStore.swift in Sources */,
+				4EFE010072226D600D3B1324 /* ConfirmationModalView.swift in Sources */,
+				38E580E476FD0A26D9300965 /* ConfirmationModalViewModel.swift in Sources */,
+				5AD40C71BA7A947A47EC7B02 /* ContentView.swift in Sources */,
+				437CBECB8F55D7956F9C5D6F /* ControlButton.swift in Sources */,
+				9005CAFCD8FFBCA6702BABC3 /* DashboardView.swift in Sources */,
+				F67509229397BEC924039A6C /* DashboardViewModel.swift in Sources */,
+				145F32B9D056CA785837A507 /* KeychainService.swift in Sources */,
+				B8D61BE3E2E0198CA9256A8E /* MockAppSettingsStore.swift in Sources */,
+				5DCC17D28D95F4A33BD7D386 /* MockSecurityManager.swift in Sources */,
+				6102C89FD4E4382A651A7D5F /* MockTeslaApiClient.swift in Sources */,
+				F568963C766A2B418BB48F70 /* MockTeslaAuthService.swift in Sources */,
+				6AC7E784367248415F8A5AC4 /* SecurityManager.swift in Sources */,
+				57008E16E9713DFD96750AE4 /* SentryGuardApp.swift in Sources */,
+				6ABF4D02CCA52641998918BD /* SettingsView.swift in Sources */,
+				3A8F94C62A10181B6FC376E7 /* SettingsViewModel.swift in Sources */,
+				A213C472C58790DF6E2BFC69 /* StatusMessageView.swift in Sources */,
+				55BCDF66A346A99803292EFB /* TeslaApiClient.swift in Sources */,
+				40064B39819FA11F5EA2E33C /* TeslaAuthService.swift in Sources */,
+				B215B6CD880B6DD3CCB6DC30 /* TeslaModels.swift in Sources */,
+				FB6C949DB60EC755AB7C45C1 /* TeslaOAuthView.swift in Sources */,
+				8697CA08FCCA1778039811DC /* WidgetVehicleCache.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		F3F34AD94E5039513A1A3FF3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				FCB157D6C2F88A4EC43D43ED /* KeychainService.swift in Sources */,
+				3EEB6B86F66F2FAB5F60A00C /* LockScreenWidgetView.swift in Sources */,
+				51361E72FEBC2A55654EBFD1 /* SentryGuardWidget.swift in Sources */,
+				E8A99974670033C4E51E3122 /* TeslaModels.swift in Sources */,
+				FA0D41B7B4C338FF3BE38FCA /* WidgetTimelineProviderTests.swift in Sources */,
+				4716ED1F31FD4339E8544A8E /* WidgetVehicleCache.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		601E316680FB0052C007C59E /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 936954A36643B345401FCF2C /* SentryGuardWidget */;
+			targetProxy = B6AFC5DBB2EA395487729079 /* PBXContainerItemProxy */;
+		};
+		F7D27F3E9AF4BB7AC5F94CB3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 0ACD44ED5DAD5DA71DA9C6A7 /* SentryGuard */;
+			targetProxy = 2E691481F4388BCF4C98A23C /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		0C143D2C640307E2DD52E7DE /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_OPTIMIZATION_LEVEL = "-O";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Release;
+		};
+		5A7AF105C5368B5106602F1E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sentryguard.app.tests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SentryGuard.app/SentryGuard";
+			};
+			name = Release;
+		};
+		651CBF11EA004D1C24AFC998 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SentryGuardWidget/SentryGuardWidget.entitlements;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_TESTABILITY = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SentryGuardWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sentryguard.app.SentryGuardWidget;
+				PRODUCT_NAME = SentryGuardWidget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		8D1C6774D9CBFF6D96085446 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SentryGuard/App/SentryGuard.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SentryGuard/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sentryguard.app;
+				PRODUCT_NAME = SentryGuard;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Debug;
+		};
+		8DCCC4F27CF21E47A8C9626F /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sentryguard.app.widgettests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		9E86883259FF1C6396B71C3D /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_ENTITLEMENTS = SentryGuardWidget/SentryGuardWidget.entitlements;
+				CURRENT_PROJECT_VERSION = 1;
+				ENABLE_TESTABILITY = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SentryGuardWidget/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@executable_path/../../Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sentryguard.app.SentryGuardWidget;
+				PRODUCT_NAME = SentryGuardWidget;
+				SDKROOT = iphoneos;
+				SKIP_INSTALL = YES;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+		BA8C7223A151435B661208DA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sentryguard.app.tests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/SentryGuard.app/SentryGuard";
+			};
+			name = Debug;
+		};
+		BD111326421A63EB654C00F7 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+					"@loader_path/Frameworks",
+				);
+				PRODUCT_BUNDLE_IDENTIFIER = com.sentryguard.app.widgettests;
+				SDKROOT = iphoneos;
+				SWIFT_VERSION = 6.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		CFFCEDD954DC0B78390A25DD /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"$(inherited)",
+					"DEBUG=1",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+				SWIFT_VERSION = 6.0;
+			};
+			name = Debug;
+		};
+		FDB81EB3BE433FB36096A5DD /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = SentryGuard/App/SentryGuard.entitlements;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_ASSET_PATHS = "";
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = SentryGuard/Info.plist;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = com.sentryguard.app;
+				PRODUCT_NAME = SentryGuard;
+				SDKROOT = iphoneos;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				TARGETED_DEVICE_FAMILY = 1;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		295575AA244F5862A8B8F07B /* Build configuration list for PBXProject "SentryGuard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				CFFCEDD954DC0B78390A25DD /* Debug */,
+				0C143D2C640307E2DD52E7DE /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		56DD8F41A0DF34436C212C9E /* Build configuration list for PBXNativeTarget "SentryGuardWidgetTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BD111326421A63EB654C00F7 /* Debug */,
+				8DCCC4F27CF21E47A8C9626F /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		77FC5FDEC0179BBB2A5E93F3 /* Build configuration list for PBXNativeTarget "SentryGuardTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BA8C7223A151435B661208DA /* Debug */,
+				5A7AF105C5368B5106602F1E /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		AF3C12314A22464908F9E644 /* Build configuration list for PBXNativeTarget "SentryGuardWidget" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				651CBF11EA004D1C24AFC998 /* Debug */,
+				9E86883259FF1C6396B71C3D /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		DBA47A3D87177F3E40E18185 /* Build configuration list for PBXNativeTarget "SentryGuard" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				8D1C6774D9CBFF6D96085446 /* Debug */,
+				FDB81EB3BE433FB36096A5DD /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = EBEBC5250E4E41AD395CB561 /* Project object */;
+}

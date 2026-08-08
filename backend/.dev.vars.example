@@ -1,0 +1,12 @@
+# Copy this file to `.dev.vars` (gitignored) for local `wrangler dev` runs.
+# Never commit real secrets.
+
+TESLA_CLIENT_ID=""
+TESLA_CLIENT_SECRET=""
+TESLA_PUBLIC_KEY_PEM="-----BEGIN PUBLIC KEY-----\nMFkwEwYHKoZIzj0CAQYIKoZIzj0DAQcDQgAE...\n-----END PUBLIC KEY-----"
+
+APNS_KEY_P8="-----BEGIN PRIVATE KEY-----\nMIGTAgEAMBMGByqGSM49AgEGCCqGSM49AwEH...\n-----END PRIVATE KEY-----"
+APNS_KEY_ID=""
+APNS_TEAM_ID=""
+APNS_BUNDLE_ID="com.sentryguard.app"
+APNS_DEVICE_TOKEN=""
