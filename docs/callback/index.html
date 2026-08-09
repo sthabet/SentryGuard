@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Redirecting to SentryGuard…</title>
+  <meta name="robots" content="noindex">
+</head>
+<body>
+  <p>Redirecting back to SentryGuard…</p>
+  <script>
+    // Tesla's OAuth server redirects here with ?code=...&state=... (or an error). Hand the
+    // full query string off to the app via its custom URL scheme — this page's only job is
+    // to bridge the https redirect Tesla requires into a scheme iOS can intercept without
+    // needing an apple-app-site-association file at the domain root.
+    window.location.replace("com.safwan.sentryguard.app://callback" + window.location.search);
+  </script>
+</body>
+</html>

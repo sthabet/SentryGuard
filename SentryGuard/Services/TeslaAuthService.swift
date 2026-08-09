@@ -25,6 +25,7 @@ enum TeslaAuthError: Error, LocalizedError, Equatable {
     case stateMismatch
     case notAuthenticated
     case tokenExchangeFailed(String)
+    case signInAlreadyInProgress
 
     var errorDescription: String? {
         switch self {
@@ -40,6 +41,8 @@ enum TeslaAuthError: Error, LocalizedError, Equatable {
             return "No stored session. Sign in first."
         case .tokenExchangeFailed(let reason):
             return "Token exchange failed: \(reason)"
+        case .signInAlreadyInProgress:
+            return "A sign-in is already in progress."
         }
     }
 }
@@ -73,6 +76,11 @@ final class TeslaAuthService: NSObject, TeslaAuthServicing {
 
     private let clientID: String
     private let redirectURI: String
+    /// Must match a `CFBundleURLSchemes` entry registered in Info.plist, so
+    /// `ASWebAuthenticationSession` can intercept the redirect. See the comment on
+    /// `beginAuthorizationSession` for why this is a custom scheme rather than the
+    /// `redirectURI` host directly.
+    private let callbackURLScheme: String
     private let scopes: [String]
     private let keychain: KeychainService
     private let urlSession: URLSession
@@ -80,14 +88,33 @@ final class TeslaAuthService: NSObject, TeslaAuthServicing {
     private static let authorizeURL = URL(string: "https://auth.tesla.com/oauth2/v3/authorize")!
     private static let tokenURL = URL(string: "https://auth.tesla.com/oauth2/v3/token")!
 
-    /// Kept alive for the duration of the interactive session; ARC would otherwise
-    /// tear these down before the completion handler fires.
-    private var presentationContextProvider: OAuthPresentationContextProvider?
+    /// Created once, for `self`'s entire lifetime — not per sign-in attempt — so there's
+    /// no window where it could be absent while `ASWebAuthenticationSession` needs it.
+    private let presentationContextProvider = OAuthPresentationContextProvider()
+
+    /// Kept alive for the duration of the interactive session; ARC would otherwise tear
+    /// this down before the completion handler fires. Critically, it must also survive a
+    /// little past the callback firing — see the deferred cleanup in
+    /// `beginAuthorizationSession` for why clearing it synchronously inside the completion
+    /// handler crashes on physical devices.
     private var authSession: ASWebAuthenticationSession?
+
+    /// Deliberate self-retain for the duration of `signIn()`. `authSession`/
+    /// `presentationContextProvider` above are only as safe as `self` staying alive to
+    /// hold them — and `self` here is otherwise only kept alive by whatever the caller
+    /// (ultimately a SwiftUI view hierarchy) happens to be holding at the time. On a
+    /// physical device, presenting `ASWebAuthenticationSession`'s system UI churns
+    /// `scenePhase` (inactive while it has focus, active again after) in a way the
+    /// simulator doesn't reproduce identically; rather than trust that every view in that
+    /// chain keeps its reference stable across that churn, this makes survival
+    /// unconditional for as long as a sign-in is actually in flight. Cleared once
+    /// `signIn()` returns or throws, so it never leaks past one attempt.
+    private var selfRetainDuringSignIn: TeslaAuthService?
 
     init(
         clientID: String = "ee13f116-a983-4e30-9bdc-5e83230a1f24",
-        redirectURI: String = "https://sthabet.github.io/SentryGuard/callback",
+        redirectURI: String = "https://sthabet.github.io/SentryGuard/callback/",
+        callbackURLScheme: String = "com.safwan.sentryguard.app",
         scopes: [String] = [
             "openid", "offline_access", "vehicle_device_data",
             "vehicle_cmds", "vehicle_charging_cmds"
@@ -97,6 +124,7 @@ final class TeslaAuthService: NSObject, TeslaAuthServicing {
     ) {
         self.clientID = clientID
         self.redirectURI = redirectURI
+        self.callbackURLScheme = callbackURLScheme
         self.scopes = scopes
         self.keychain = keychain
         self.urlSession = urlSession
@@ -105,7 +133,19 @@ final class TeslaAuthService: NSObject, TeslaAuthServicing {
     }
 
     func signIn() async throws {
+        // Defense in depth: `TeslaOAuthView` disables its button while signing in, but
+        // that's a UI-layer guard, not a service-layer invariant. A second concurrent
+        // `signIn()` call — a double-tap racing the button's disabled state, or any future
+        // caller — would spin up a second `ASWebAuthenticationSession` while the first is
+        // still presenting/dismissing, which is exactly the shape of "attempting to load
+        // the view of a view controller while it is deallocating" (two overlapping
+        // `SFAuthenticationViewController` presentations stepping on each other).
+        guard state != .authenticating else {
+            throw TeslaAuthError.signInAlreadyInProgress
+        }
         state = .authenticating
+        selfRetainDuringSignIn = self
+        defer { selfRetainDuringSignIn = nil }
         do {
             let pkce = PKCE()
             let csrfState = UUID().uuidString
@@ -149,6 +189,7 @@ final class TeslaAuthService: NSObject, TeslaAuthServicing {
 
     // MARK: - Authorization session
 
+    @MainActor
     private func beginAuthorizationSession(pkce: PKCE, csrfState: String) async throws -> URL {
         guard var components = URLComponents(url: Self.authorizeURL, resolvingAgainstBaseURL: false) else {
             throw TeslaAuthError.invalidCallbackURL
@@ -163,26 +204,34 @@ final class TeslaAuthService: NSObject, TeslaAuthServicing {
             URLQueryItem(name: "code_challenge_method", value: "S256")
         ]
 
-        guard let authorizeRequestURL = components.url,
-              let redirectComponents = URLComponents(string: redirectURI),
-              let callbackHost = redirectComponents.host else {
+        guard let authorizeRequestURL = components.url else {
             throw TeslaAuthError.invalidCallbackURL
         }
-        let callback = ASWebAuthenticationSession.Callback.https(
-            host: callbackHost,
-            path: redirectComponents.path
-        )
+        // Tesla's OAuth server requires an https `redirect_uri` it can validate, but this
+        // app has no control over the root of that domain (`sthabet.github.io`) to host an
+        // `apple-app-site-association` file, so `ASWebAuthenticationSession.Callback.https`
+        // (which depends on the Associated Domains entitlement + that file) isn't viable
+        // here — it fails closed as `.canceledLogin` before any UI even shows. Instead,
+        // `redirectURI` points at a static page (see `docs/callback/index.html`) that
+        // JS-redirects to this custom scheme, which `Info.plist`'s `CFBundleURLTypes`
+        // registers and this session intercepts directly, no domain ownership required.
+        let callback = ASWebAuthenticationSession.Callback.customScheme(callbackURLScheme)
 
         return try await withCheckedThrowingContinuation { continuation in
-            let contextProvider = OAuthPresentationContextProvider()
-            presentationContextProvider = contextProvider
-
             let session = ASWebAuthenticationSession(
                 url: authorizeRequestURL,
                 callback: callback
             ) { [weak self] callbackURL, error in
-                self?.presentationContextProvider = nil
-                self?.authSession = nil
+                // Do NOT clear `authSession` synchronously here: ASWebAuthenticationSession
+                // invokes this completion handler as part of its own internal dismissal of
+                // SFAuthenticationViewController. Dropping our last strong reference in the
+                // same call frame races with that teardown and crashes on physical devices
+                // ("SFAuthenticationViewController ... while it is deallocating") — it
+                // doesn't reproduce in the simulator. Deferring by one run-loop turn lets
+                // the session finish tearing down itself first.
+                Task { @MainActor [weak self] in
+                    self?.authSession = nil
+                }
 
                 if let error = error as? ASWebAuthenticationSessionError, error.code == .canceledLogin {
                     continuation.resume(throwing: TeslaAuthError.userCancelled)
@@ -199,7 +248,7 @@ final class TeslaAuthService: NSObject, TeslaAuthServicing {
                 continuation.resume(returning: callbackURL)
             }
 
-            session.presentationContextProvider = contextProvider
+            session.presentationContextProvider = presentationContextProvider
             session.prefersEphemeralWebBrowserSession = true
             authSession = session
             session.start()
@@ -273,11 +322,31 @@ final class TeslaAuthService: NSObject, TeslaAuthServicing {
 
 @MainActor
 private final class OAuthPresentationContextProvider: NSObject, ASWebAuthenticationPresentationContextProviding {
+    @MainActor
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-        UIApplication.shared.connectedScenes
+        let windows = UIApplication.shared.connectedScenes
             .compactMap { $0 as? UIWindowScene }
             .flatMap(\.windows)
-            .first(where: \.isKeyWindow) ?? ASPresentationAnchor()
+
+        if let keyWindow = windows.first(where: \.isKeyWindow) {
+            return keyWindow
+        }
+
+        // No window currently reports `isKeyWindow` — can happen if this is queried
+        // mid scene-transition. `ASPresentationAnchor` is a plain type alias for
+        // `UIWindow`, so a naive `?? ASPresentationAnchor()`/`?? UIWindow()` fallback
+        // here fabricates a brand-new, unattached window — itself an invalid
+        // presentation anchor, and a plausible contributor to
+        // "SFAuthenticationViewController ... while it is deallocating" if
+        // `SFAuthenticationViewController` ever gets presented against it. Prefer any
+        // real, attached window in an active scene first.
+        if let anyAttachedWindow = windows.first {
+            return anyAttachedWindow
+        }
+
+        // Last resort — should be unreachable, since the user just tapped a button,
+        // meaning some window must currently be on screen.
+        return ASPresentationAnchor()
     }
 }
 

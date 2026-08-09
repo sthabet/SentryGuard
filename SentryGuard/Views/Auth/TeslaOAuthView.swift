@@ -6,8 +6,11 @@ struct TeslaOAuthView: View {
 
     private let onAuthenticated: () -> Void
 
+    /// `authService` has no default value deliberately — always inject the app's one
+    /// shared instance (see `SentryGuardApp`/`ContentView`) rather than letting a call
+    /// site accidentally construct a fresh, throwaway `TeslaAuthService()`.
     init(
-        authService: any TeslaAuthServicing = TeslaAuthService(),
+        authService: any TeslaAuthServicing,
         onAuthenticated: @escaping () -> Void = {}
     ) {
         _authService = State(initialValue: authService)

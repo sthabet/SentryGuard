@@ -102,21 +102,21 @@
 		366970F9E64A3969A0CD29F9 /* SentryGuardWidgetTests.xctest */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.cfbundle; path = SentryGuardWidgetTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		36A429E4A68C83850B9F1D48 /* KeychainService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeychainService.swift; sourceTree = "<group>"; };
 		3EFD2538A613FFE4DF6697B1 /* SecurityManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SecurityManager.swift; sourceTree = "<group>"; };
-		4256B4EFE337E5D047B9B1B9 /* SentryGuard.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = SentryGuard.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		4256B4EFE337E5D047B9B1B9 /* SentryGuard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = SentryGuard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		50FED86058AA95A3FD464937 /* StatusMessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StatusMessageView.swift; sourceTree = "<group>"; };
 		53AE33C53034E9D86DE0081E /* ControlButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ControlButton.swift; sourceTree = "<group>"; };
 		5673FBD776A0DB6214608587 /* DashboardViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModelTests.swift; sourceTree = "<group>"; };
 		65CA6098D6F008D6E35F253C /* DashboardViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DashboardViewModel.swift; sourceTree = "<group>"; };
 		6CF1351BBCA88DA413FFE566 /* WidgetVehicleCache.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetVehicleCache.swift; sourceTree = "<group>"; };
 		7A8986F342D3435E891A61B3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
-		844CE1AE52877C123CEF9165 /* .gitkeep */ = {isa = PBXFileReference; path = .gitkeep; sourceTree = "<group>"; };
+		844CE1AE52877C123CEF9165 /* .gitkeep */ = {isa = PBXFileReference; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
 		84F35982E7377D3F4999A1D9 /* TeslaOAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TeslaOAuthView.swift; sourceTree = "<group>"; };
 		8E114BE3E419B962E32F21C0 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9680265CF58B3E1C09096543 /* SentryGuardWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = SentryGuardWidget.entitlements; sourceTree = "<group>"; };
 		9B843EF16027384F8045926B /* WidgetVehicleStoreTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetVehicleStoreTests.swift; sourceTree = "<group>"; };
 		9EB06C9C0CC05DE12F439EE9 /* SentryGuardWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentryGuardWidget.swift; sourceTree = "<group>"; };
 		A1AEF7808344E50F81C41544 /* MockTeslaAuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockTeslaAuthService.swift; sourceTree = "<group>"; };
-		A2C18674348199830FCA4E62 /* SentryGuardWidget.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = SentryGuardWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		A2C18674348199830FCA4E62 /* SentryGuardWidget.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = SentryGuardWidget.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		A2FF1C020AE04980DD2ABC95 /* ConfirmationModalViewModelTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConfirmationModalViewModelTests.swift; sourceTree = "<group>"; };
 		A5358656182251492CA1B6B1 /* SentryGuardWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SentryGuardWidgetBundle.swift; sourceTree = "<group>"; };
 		A7E643065E139AB5F26E1E52 /* MockAppSettingsStore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MockAppSettingsStore.swift; sourceTree = "<group>"; };
@@ -399,8 +399,6 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = YES;
 				LastUpgradeCheck = 1430;
-				TargetAttributes = {
-				};
 			};
 			buildConfigurationList = 295575AA244F5862A8B8F07B /* Build configuration list for PBXProject "SentryGuard" */;
 			developmentRegion = en;
@@ -603,9 +601,11 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SentryGuardWidget/SentryGuardWidget.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MXA7S5XR28;
 				ENABLE_TESTABILITY = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SentryGuardWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "SentryGuard Widget";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -613,7 +613,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sentryguard.app.SentryGuardWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.safwan.sentryguard.app.SentryGuardWidget;
 				PRODUCT_NAME = SentryGuardWidget;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -631,10 +631,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = MXA7S5XR28;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SentryGuard/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SentryGuard;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "SentryGuard uses Face ID to confirm your identity before sending any command to your vehicle.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -642,7 +644,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sentryguard.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.safwan.sentryguard.app;
 				PRODUCT_NAME = SentryGuard;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
@@ -673,9 +675,11 @@
 			buildSettings = {
 				CODE_SIGN_ENTITLEMENTS = SentryGuardWidget/SentryGuardWidget.entitlements;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = MXA7S5XR28;
 				ENABLE_TESTABILITY = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SentryGuardWidget/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = "SentryGuard Widget";
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -683,7 +687,7 @@
 					"@executable_path/../../Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sentryguard.app.SentryGuardWidget;
+				PRODUCT_BUNDLE_IDENTIFIER = com.safwan.sentryguard.app.SentryGuardWidget;
 				PRODUCT_NAME = SentryGuardWidget;
 				SDKROOT = iphoneos;
 				SKIP_INSTALL = YES;
@@ -801,10 +805,12 @@
 				CODE_SIGN_IDENTITY = "iPhone Developer";
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "";
+				DEVELOPMENT_TEAM = MXA7S5XR28;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = SentryGuard/Info.plist;
+				INFOPLIST_KEY_CFBundleDisplayName = SentryGuard;
+				INFOPLIST_KEY_NSFaceIDUsageDescription = "SentryGuard uses Face ID to confirm your identity before sending any command to your vehicle.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
-				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
 				IPHONEOS_DEPLOYMENT_TARGET = 17.4;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -812,7 +818,7 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.sentryguard.app;
+				PRODUCT_BUNDLE_IDENTIFIER = com.safwan.sentryguard.app;
 				PRODUCT_NAME = SentryGuard;
 				SDKROOT = iphoneos;
 				SWIFT_EMIT_LOC_STRINGS = YES;
