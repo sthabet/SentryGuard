@@ -146,7 +146,7 @@ describe("POST /api/partner-keys", () => {
         return new Response(JSON.stringify({ access_token: "mock-token" }), { status: 200 });
       }
       if (url.includes("/api/1/partner_accounts")) {
-        return new Response(JSON.stringify({ response: { domain: "fleet-api.prd.na.vn.cloud.tesla.com" } }), {
+        return new Response(JSON.stringify({ response: { domain: "worker.example" } }), {
           status: 200,
         });
       }
@@ -158,7 +158,10 @@ describe("POST /api/partner-keys", () => {
     expect(response.status).toBe(200);
     const body = (await response.json()) as { status: string; domain: string };
     expect(body.status).toBe("registered");
-    expect(body.domain).toBe("fleet-api.prd.na.vn.cloud.tesla.com");
+    // Must be the worker's own request host, not TESLA_FLEET_API_BASE_URL's host — Tesla
+    // verifies domain ownership by fetching the public key from whatever domain is
+    // registered here, and it can only ever reach the worker's own domain.
+    expect(body.domain).toBe("worker.example");
   });
 
   it("returns 502 when the Tesla token request fails", async () => {

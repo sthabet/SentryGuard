@@ -30,7 +30,7 @@ export default {
     }
 
     if (request.method === "POST" && url.pathname === "/api/partner-keys") {
-      return handlePartnerKeyRegistration(env);
+      return handlePartnerKeyRegistration(request, env);
     }
 
     if (request.method === "POST" && url.pathname === "/api/telemetry") {
@@ -85,7 +85,7 @@ interface PartnerAccountResponse {
   response?: unknown;
 }
 
-async function handlePartnerKeyRegistration(env: Env): Promise<Response> {
+async function handlePartnerKeyRegistration(request: Request, env: Env): Promise<Response> {
   if (!env.TESLA_CLIENT_ID || !env.TESLA_CLIENT_SECRET) {
     return jsonResponse(
       { error: "Tesla partner credentials are not configured on this worker." },
@@ -103,7 +103,11 @@ async function handlePartnerKeyRegistration(env: Env): Promise<Response> {
     );
   }
 
-  const domain = new URL(env.TESLA_FLEET_API_BASE_URL).hostname;
+  // Must be the domain THIS worker is reachable at (where PUBLIC_KEY_PATH is actually
+  // served) — Tesla fetches the public key from here to verify domain ownership. Using
+  // `TESLA_FLEET_API_BASE_URL`'s host here would register Tesla's own Fleet API hostname
+  // as the partner domain, which Tesla doesn't own a key for and can never verify.
+  const domain = new URL(request.url).hostname;
   let registerResponse: Response;
   try {
     registerResponse = await fetch(`${env.TESLA_FLEET_API_BASE_URL}/api/1/partner_accounts`, {
