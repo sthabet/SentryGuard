@@ -6,6 +6,10 @@ struct StatusMessageView: View {
     let title: String
     let message: String
     var retryAction: (() -> Void)?
+    var retryLabel: String = "Try Again"
+    /// Shows a spinner instead of the retry button — for actions like waking the
+    /// vehicle that take noticeably longer than a simple network retry.
+    var isRetrying: Bool = false
 
     var body: some View {
         VStack(spacing: 16) {
@@ -19,8 +23,10 @@ struct StatusMessageView: View {
                 .foregroundStyle(.secondary)
                 .multilineTextAlignment(.center)
                 .padding(.horizontal)
-            if let retryAction {
-                Button("Try Again", action: retryAction)
+            if isRetrying {
+                ProgressView()
+            } else if let retryAction {
+                Button(retryLabel, action: retryAction)
                     .buttonStyle(.bordered)
             }
         }

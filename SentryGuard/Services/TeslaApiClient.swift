@@ -7,6 +7,9 @@ protocol TeslaApiClienting: AnyObject {
     func fetchVehicles() async throws -> [TeslaVehicle]
     func fetchVehicleState(vin: String) async throws -> TeslaVehicleState
     func executeCommand(vin: String, command: VehicleCommand) async throws -> Bool
+    /// `POST /api/1/vehicles/{vin}/wake_up`. Only brings the vehicle out of sleep —
+    /// callers still need to re-fetch state afterward, since waking isn't instantaneous.
+    func wakeVehicle(vin: String) async throws -> TeslaVehicle
 }
 
 // MARK: - Client
@@ -52,6 +55,14 @@ final class TeslaApiClient: TeslaApiClienting {
         return envelope.response.result
     }
 
+    func wakeVehicle(vin: String) async throws -> TeslaVehicle {
+        let envelope: TeslaAPIResponse<TeslaVehicle> = try await send(
+            path: "/api/1/vehicles/\(vin)/wake_up",
+            method: "POST"
+        )
+        return envelope.response
+    }
+
     // MARK: - Networking core
 
     private func send<T: Decodable>(
@@ -83,6 +94,10 @@ final class TeslaApiClient: TeslaApiClienting {
             }
             try await authService.refreshTokensIfNeeded()
             return try await send(path: path, method: method, body: body, isRetryAfterRefresh: true)
+        }
+
+        if httpResponse.statusCode == 408 {
+            throw TeslaApiError.vehicleAsleep
         }
 
         guard (200..<300).contains(httpResponse.statusCode) else {

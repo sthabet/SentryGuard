@@ -16,6 +16,10 @@ enum DashboardLoadState: Equatable {
     case loaded
     case offline
     case unauthenticated
+    /// Tesla Fleet API returned HTTP 408 — the car is asleep, a normal battery-saving
+    /// state, not an error. The dashboard offers a "Wake Vehicle" action instead of the
+    /// generic `.error` retry.
+    case asleep
     case error(String)
 }
 
@@ -34,9 +38,14 @@ final class DashboardViewModel {
     private(set) var vehicle: TeslaVehicle?
     private(set) var vehicleState: TeslaVehicleState?
     private(set) var activeCommand: PendingCommand?
+    private(set) var isWaking = false
 
     private let apiClient: any TeslaApiClienting
     private let securityManager: any SecurityManaging
+    /// Overridable only so tests can drive the wake-retry loop without real wall-clock
+    /// delays; production always uses the default.
+    private let wakePollIntervalNanoseconds: UInt64
+    private let maxWakePollAttempts: Int
 
     var isLoading: Bool { loadState == .loading }
 
@@ -57,9 +66,16 @@ final class DashboardViewModel {
         }
     }
 
-    init(apiClient: any TeslaApiClienting, securityManager: any SecurityManaging) {
+    init(
+        apiClient: any TeslaApiClienting,
+        securityManager: any SecurityManaging,
+        wakePollIntervalNanoseconds: UInt64 = 3_000_000_000,
+        maxWakePollAttempts: Int = 10
+    ) {
         self.apiClient = apiClient
         self.securityManager = securityManager
+        self.wakePollIntervalNanoseconds = wakePollIntervalNanoseconds
+        self.maxWakePollAttempts = maxWakePollAttempts
     }
 
     func loadData() async {
@@ -96,6 +112,33 @@ final class DashboardViewModel {
         await loadData()
     }
 
+    /// Not gated behind Face ID/confirmation like `VehicleCommand`s — waking the car
+    /// isn't security-sensitive (it can't unlock, move, or expose the vehicle), it just
+    /// lets the dashboard show live data, matching Tesla's own app.
+    func wakeVehicle() async {
+        guard let vin = vehicle?.vin else { return }
+        isWaking = true
+        defer { isWaking = false }
+
+        do {
+            _ = try await apiClient.wakeVehicle(vin: vin)
+        } catch {
+            loadState = Self.mapError(error)
+            return
+        }
+
+        // Waking isn't instantaneous — poll a bounded number of times, backing off only
+        // while the vehicle is still reporting asleep. Any other outcome (loaded, or a
+        // different error) ends the loop immediately.
+        for attempt in 1...maxWakePollAttempts {
+            await loadData()
+            guard loadState == .asleep else { return }
+            if attempt < maxWakePollAttempts {
+                try? await Task.sleep(nanoseconds: wakePollIntervalNanoseconds)
+            }
+        }
+    }
+
     func selectCommand(_ command: VehicleCommand) {
         activeCommand = PendingCommand(command: command)
     }
@@ -115,6 +158,9 @@ final class DashboardViewModel {
         }
         if let apiError = error as? TeslaApiError, apiError == .notAuthenticated {
             return .unauthenticated
+        }
+        if let apiError = error as? TeslaApiError, apiError == .vehicleAsleep {
+            return .asleep
         }
         return .error((error as? LocalizedError)?.errorDescription ?? error.localizedDescription)
     }

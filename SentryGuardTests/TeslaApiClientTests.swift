@@ -126,6 +126,28 @@ final class TeslaApiClientTests: XCTestCase {
         XCTAssertFalse(result)
     }
 
+    // MARK: - wakeVehicle
+
+    func test_wakeVehicle_postsToWakeUpEndpointAndDecodesVehicle() async throws {
+        let capturedRequest = RequestCapture()
+        let json = Data("""
+        {"response":{"id":1,"vehicle_id":2,"vin":"VIN123","display_name":"My Model 3","state":"waking"}}
+        """.utf8)
+
+        let session = stubbedSession { request in
+            capturedRequest.request = request
+            return (makeResponse(for: request, statusCode: 200), json)
+        }
+        let auth = SpyTeslaAuthService(accessToken: "seed-token")
+        let client = TeslaApiClient(authService: auth, urlSession: session)
+
+        let vehicle = try await client.wakeVehicle(vin: "VIN123")
+
+        XCTAssertEqual(vehicle.state, "waking")
+        XCTAssertEqual(capturedRequest.request?.url?.path, "/api/1/vehicles/VIN123/wake_up")
+        XCTAssertEqual(capturedRequest.request?.httpMethod, "POST")
+    }
+
     // MARK: - Authentication
 
     func test_send_withNoStoredAccessToken_throwsNotAuthenticatedWithoutHittingNetwork() async {
@@ -226,6 +248,28 @@ final class TeslaApiClientTests: XCTestCase {
             XCTFail("Expected TeslaApiError.httpError")
         } catch let error as TeslaApiError {
             XCTAssertEqual(error, .httpError(statusCode: 500, body: "server exploded"))
+        } catch {
+            XCTFail("Unexpected error: \(error)")
+        }
+    }
+
+    func test_send_on408_throwsVehicleAsleepRatherThanGenericHttpError() async {
+        let session = stubbedSession { request in
+            (
+                makeResponse(for: request, statusCode: 408),
+                Data("""
+                {"response":null,"error":"vehicle unavailable: vehicle is offline or asleep"}
+                """.utf8)
+            )
+        }
+        let auth = SpyTeslaAuthService(accessToken: "seed-token")
+        let client = TeslaApiClient(authService: auth, urlSession: session)
+
+        do {
+            _ = try await client.fetchVehicleState(vin: "VIN123")
+            XCTFail("Expected TeslaApiError.vehicleAsleep")
+        } catch let error as TeslaApiError {
+            XCTAssertEqual(error, .vehicleAsleep)
         } catch {
             XCTFail("Unexpected error: \(error)")
         }

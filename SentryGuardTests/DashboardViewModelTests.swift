@@ -185,6 +185,94 @@ final class DashboardViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.vehicle, .preview)
     }
 
+    // MARK: - Vehicle asleep / wake
+
+    func test_loadData_onVehicleAsleepError_setsAsleepStateButKeepsVehicle() async {
+        let api = MockTeslaApiClient(vehicles: [.preview], vehicleStates: [TeslaVehicle.preview.vin: .preview])
+        api.asleepUntilWakeCallCount = .max
+        let viewModel = DashboardViewModel(apiClient: api, securityManager: MockSecurityManager())
+
+        await viewModel.loadData()
+
+        // `fetchVehicles` (the account-level list) succeeds even when the specific
+        // vehicle is asleep — only `vehicle_data` 408s — so `vehicle` is still populated
+        // by the time `.asleep` is reached, letting the view offer "Wake Vehicle".
+        XCTAssertEqual(viewModel.loadState, .asleep)
+        XCTAssertEqual(viewModel.vehicle, .preview)
+    }
+
+    func test_wakeVehicle_withNoVehicleLoadedYet_doesNothing() async {
+        let api = MockTeslaApiClient()
+        let viewModel = DashboardViewModel(apiClient: api, securityManager: MockSecurityManager())
+
+        await viewModel.wakeVehicle()
+
+        XCTAssertTrue(api.wokeVehicles.isEmpty)
+        XCTAssertEqual(viewModel.loadState, .idle)
+    }
+
+    func test_wakeVehicle_whenVehicleIsImmediatelyAwake_loadsSuccessfully() async {
+        let api = MockTeslaApiClient(vehicles: [.preview], vehicleStates: [TeslaVehicle.preview.vin: .preview])
+        api.asleepUntilWakeCallCount = 1
+        let viewModel = DashboardViewModel(
+            apiClient: api, securityManager: MockSecurityManager(), wakePollIntervalNanoseconds: 0
+        )
+        await viewModel.loadData()
+        XCTAssertEqual(viewModel.loadState, .asleep)
+
+        await viewModel.wakeVehicle()
+
+        XCTAssertEqual(api.wokeVehicles, [TeslaVehicle.preview.vin])
+        XCTAssertEqual(viewModel.loadState, .loaded)
+        XCTAssertFalse(viewModel.isWaking)
+    }
+
+    func test_wakeVehicle_pollsThroughSeveralAsleepResponsesThenSucceeds() async {
+        let api = MockTeslaApiClient(vehicles: [.preview], vehicleStates: [TeslaVehicle.preview.vin: .preview])
+        api.asleepUntilWakeCallCount = 3
+        let viewModel = DashboardViewModel(
+            apiClient: api, securityManager: MockSecurityManager(),
+            wakePollIntervalNanoseconds: 0, maxWakePollAttempts: 5
+        )
+        await viewModel.loadData()
+        XCTAssertEqual(viewModel.loadState, .asleep)
+
+        await viewModel.wakeVehicle()
+
+        XCTAssertEqual(viewModel.loadState, .loaded)
+    }
+
+    func test_wakeVehicle_stillAsleepAfterMaxAttempts_endsInAsleepState() async {
+        let api = MockTeslaApiClient(vehicles: [.preview], vehicleStates: [TeslaVehicle.preview.vin: .preview])
+        api.asleepUntilWakeCallCount = .max
+        let viewModel = DashboardViewModel(
+            apiClient: api, securityManager: MockSecurityManager(),
+            wakePollIntervalNanoseconds: 0, maxWakePollAttempts: 3
+        )
+        await viewModel.loadData()
+
+        await viewModel.wakeVehicle()
+
+        XCTAssertEqual(viewModel.loadState, .asleep)
+        XCTAssertFalse(viewModel.isWaking)
+    }
+
+    func test_wakeVehicle_whenWakeCallItselfFails_setsErrorState() async {
+        let api = MockTeslaApiClient(vehicles: [.preview], vehicleStates: [TeslaVehicle.preview.vin: .preview])
+        api.asleepUntilWakeCallCount = 1
+        let viewModel = DashboardViewModel(apiClient: api, securityManager: MockSecurityManager())
+        await viewModel.loadData()
+        XCTAssertEqual(viewModel.loadState, .asleep)
+
+        api.errorToThrow = TeslaApiError.httpError(statusCode: 500, body: "boom")
+        await viewModel.wakeVehicle()
+
+        guard case .error = viewModel.loadState else {
+            return XCTFail("Expected .error, got \(viewModel.loadState)")
+        }
+        XCTAssertFalse(viewModel.isWaking)
+    }
+
     // MARK: - Active command sheet state
 
     func test_selectCommand_setsActiveCommand() {

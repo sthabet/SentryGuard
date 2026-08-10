@@ -163,6 +163,11 @@ enum TeslaApiError: Error, LocalizedError, Equatable {
     case invalidResponse
     case httpError(statusCode: Int, body: String)
     case decodingFailed(String)
+    /// Tesla Fleet API returns HTTP 408 for `vehicle_data`/`command` requests when the
+    /// car is asleep — a normal, expected vehicle state (it sleeps to save battery), not
+    /// a real failure. Callers should offer a "Wake Vehicle" action rather than treating
+    /// this like `.httpError`.
+    case vehicleAsleep
 
     var errorDescription: String? {
         switch self {
@@ -174,6 +179,8 @@ enum TeslaApiError: Error, LocalizedError, Equatable {
             return "Tesla Fleet API returned HTTP \(statusCode): \(body)"
         case .decodingFailed(let reason):
             return "Could not decode the Tesla Fleet API response: \(reason)"
+        case .vehicleAsleep:
+            return "The vehicle is asleep."
         }
     }
 }

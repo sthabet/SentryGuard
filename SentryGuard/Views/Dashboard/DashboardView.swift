@@ -81,6 +81,17 @@ struct DashboardView: View {
                 message: "Your Tesla session has expired. Please sign in again.",
                 retryAction: { Task { await viewModel.refresh() } }
             )
+        case .asleep:
+            StatusMessageView(
+                systemImage: "moon.zzz.fill",
+                title: "Vehicle Asleep",
+                message: viewModel.isWaking
+                    ? "Waking your Tesla — this can take up to a minute…"
+                    : "Your Tesla is asleep to save battery. Wake it to see the latest status.",
+                retryAction: viewModel.isWaking ? nil : { Task { await viewModel.wakeVehicle() } },
+                retryLabel: "Wake Vehicle",
+                isRetrying: viewModel.isWaking
+            )
         case .error(let message):
             StatusMessageView(
                 systemImage: "exclamationmark.triangle.fill",

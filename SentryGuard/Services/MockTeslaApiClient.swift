@@ -13,8 +13,13 @@ final class MockTeslaApiClient: TeslaApiClienting {
     var vehicleStates: [String: TeslaVehicleState]
     var commandResult: Bool
     var errorToThrow: Error?
+    /// Set > 0 to have `fetchVehicleState` throw `.vehicleAsleep` this many times before
+    /// falling through to the normal (possibly still-erroring) response — lets tests
+    /// exercise the wake-vehicle retry loop without a real network round trip.
+    var asleepUntilWakeCallCount = 0
 
     private(set) var executedCommands: [ExecutedCommand] = []
+    private(set) var wokeVehicles: [String] = []
 
     init(
         vehicles: [TeslaVehicle] = [.preview],
@@ -39,6 +44,10 @@ final class MockTeslaApiClient: TeslaApiClienting {
         if let errorToThrow {
             throw errorToThrow
         }
+        if asleepUntilWakeCallCount > 0 {
+            asleepUntilWakeCallCount -= 1
+            throw TeslaApiError.vehicleAsleep
+        }
         guard let state = vehicleStates[vin] else {
             throw TeslaApiError.httpError(statusCode: 404, body: "Vehicle \(vin) not found.")
         }
@@ -51,6 +60,17 @@ final class MockTeslaApiClient: TeslaApiClienting {
         }
         executedCommands.append(ExecutedCommand(vin: vin, command: command))
         return commandResult
+    }
+
+    func wakeVehicle(vin: String) async throws -> TeslaVehicle {
+        if let errorToThrow {
+            throw errorToThrow
+        }
+        wokeVehicles.append(vin)
+        guard let vehicle = vehicles.first(where: { $0.vin == vin }) else {
+            throw TeslaApiError.httpError(statusCode: 404, body: "Vehicle \(vin) not found.")
+        }
+        return vehicle
     }
 }
 

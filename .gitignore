@@ -12,3 +12,6 @@ xcuserdata/
 
 # Claude Code local session state (not shared project config)
 .claude/
+
+# Tesla partner-verification keypair (backend/README.md) — secret, never committed
+*.pem
