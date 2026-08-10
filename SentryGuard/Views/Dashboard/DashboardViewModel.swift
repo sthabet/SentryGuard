@@ -109,7 +109,7 @@ final class DashboardViewModel {
         defer { isWaking = false }
 
         do {
-            _ = try await apiClient.wakeVehicle(vin: activeVehicle.vin)
+            try await apiClient.wakeVehicle(vin: activeVehicle.vin)
         } catch {
             loadState = Self.mapError(error)
             return

@@ -9,7 +9,7 @@ protocol TeslaApiClienting: AnyObject {
     func executeCommand(vin: String, command: VehicleCommand) async throws -> Bool
     /// `POST /api/1/vehicles/{vin}/wake_up`. Only brings the vehicle out of sleep —
     /// callers still need to re-fetch state afterward, since waking isn't instantaneous.
-    func wakeVehicle(vin: String) async throws -> TeslaVehicle
+    func wakeVehicle(vin: String) async throws
 }
 
 // MARK: - Client
@@ -60,12 +60,13 @@ final class TeslaApiClient: TeslaApiClienting {
         return envelope.response.result
     }
 
-    func wakeVehicle(vin: String) async throws -> TeslaVehicle {
-        let envelope: TeslaAPIResponse<TeslaVehicle> = try await send(
-            path: "/api/1/vehicles/\(vin)/wake_up",
-            method: "POST"
-        )
-        return envelope.response
+    func wakeVehicle(vin: String) async throws {
+        // The response body (a full vehicle object, but notably missing `display_name` —
+        // confirmed against a real device response) isn't used for anything; callers
+        // re-fetch state afterward anyway. Decoding it as `TeslaVehicle` doesn't just risk
+        // failing on that missing field, it already did, live, so this only confirms the
+        // request succeeded rather than parsing a body nothing needs.
+        _ = try await performRequest(path: "/api/1/vehicles/\(vin)/wake_up", method: "POST")
     }
 
     // MARK: - Networking core
@@ -74,9 +75,31 @@ final class TeslaApiClient: TeslaApiClienting {
         path: String,
         method: String,
         body: [String: Any]? = nil,
+        queryItems: [URLQueryItem]? = nil
+    ) async throws -> T {
+        let data = try await performRequest(path: path, method: method, body: body, queryItems: queryItems)
+        do {
+            return try JSONDecoder().decode(T.self, from: data)
+        } catch {
+            // Include the raw body so a mismatch between our DTOs and Tesla's actual
+            // response shape is diagnosable from the on-screen error alone, without
+            // needing an Xcode console attached to the device.
+            let bodyString = String(data: data, encoding: .utf8) ?? "<non-UTF8 body>"
+            throw TeslaApiError.decodingFailed("\(error.localizedDescription) — raw response: \(bodyString.prefix(500))")
+        }
+    }
+
+    /// Attaches auth, performs the request, and handles the 401-refresh-retry/408/non-2xx
+    /// cases shared by every endpoint — decoding the response body is `send`'s job, not
+    /// this one's, since `wakeVehicle` needs the request/response handling but not a typed
+    /// body.
+    private func performRequest(
+        path: String,
+        method: String,
+        body: [String: Any]? = nil,
         queryItems: [URLQueryItem]? = nil,
         isRetryAfterRefresh: Bool = false
-    ) async throws -> T {
+    ) async throws -> Data {
         let accessToken = try authService.currentAccessToken()
 
         var url = baseURL.appending(path: path)
@@ -104,7 +127,7 @@ final class TeslaApiClient: TeslaApiClienting {
                 throw TeslaApiError.notAuthenticated
             }
             try await authService.refreshTokensIfNeeded()
-            return try await send(
+            return try await performRequest(
                 path: path, method: method, body: body, queryItems: queryItems, isRetryAfterRefresh: true
             )
         }
@@ -118,15 +141,7 @@ final class TeslaApiClient: TeslaApiClienting {
             throw TeslaApiError.httpError(statusCode: httpResponse.statusCode, body: bodyString)
         }
 
-        do {
-            return try JSONDecoder().decode(T.self, from: data)
-        } catch {
-            // Include the raw body so a mismatch between our DTOs and Tesla's actual
-            // response shape is diagnosable from the on-screen error alone, without
-            // needing an Xcode console attached to the device.
-            let bodyString = String(data: data, encoding: .utf8) ?? "<non-UTF8 body>"
-            throw TeslaApiError.decodingFailed("\(error.localizedDescription) — raw response: \(bodyString.prefix(500))")
-        }
+        return data
     }
 }
 

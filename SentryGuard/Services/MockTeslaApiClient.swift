@@ -71,15 +71,14 @@ final class MockTeslaApiClient: TeslaApiClienting {
         return commandResult
     }
 
-    func wakeVehicle(vin: String) async throws -> TeslaVehicle {
+    func wakeVehicle(vin: String) async throws {
         if let errorToThrow {
             throw errorToThrow
         }
-        wokeVehicles.append(vin)
-        guard let vehicle = vehicles.first(where: { $0.vin == vin }) else {
+        guard vehicles.contains(where: { $0.vin == vin }) else {
             throw TeslaApiError.httpError(statusCode: 404, body: "Vehicle \(vin) not found.")
         }
-        return vehicle
+        wokeVehicles.append(vin)
     }
 }
 

@@ -156,10 +156,15 @@ final class TeslaApiClientTests: XCTestCase {
 
     // MARK: - wakeVehicle
 
-    func test_wakeVehicle_postsToWakeUpEndpointAndDecodesVehicle() async throws {
+    func test_wakeVehicle_postsToWakeUpEndpointAndSucceedsWithoutNeedingTheBody() async throws {
         let capturedRequest = RequestCapture()
+        // A real device response, captured live: notably missing `display_name`, which
+        // `TeslaVehicle` requires — decoding this as `TeslaVehicle` (the pre-fix behavior)
+        // fails with "Could not decode ... it is missing". `wakeVehicle` doesn't use the
+        // response body at all now, so this must succeed regardless of its shape.
         let json = Data("""
-        {"response":{"id":1,"vehicle_id":2,"vin":"VIN123","display_name":"My Model 3","state":"waking"}}
+        {"response":{"id":3744223732265945,"user_id":2252407688022963,"vehicle_id":2252394147965144,
+        "vin":"VIN123","color":null,"access_type":"OWNER","state":"offline","in_service":false}}
         """.utf8)
 
         let session = stubbedSession { request in
@@ -169,9 +174,8 @@ final class TeslaApiClientTests: XCTestCase {
         let auth = SpyTeslaAuthService(accessToken: "seed-token")
         let client = TeslaApiClient(authService: auth, urlSession: session)
 
-        let vehicle = try await client.wakeVehicle(vin: "VIN123")
+        try await client.wakeVehicle(vin: "VIN123")
 
-        XCTAssertEqual(vehicle.state, "waking")
         XCTAssertEqual(capturedRequest.request?.url?.path, "/api/1/vehicles/VIN123/wake_up")
         XCTAssertEqual(capturedRequest.request?.httpMethod, "POST")
     }
