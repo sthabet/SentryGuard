@@ -17,6 +17,11 @@ final class MockTeslaApiClient: TeslaApiClienting {
     /// falling through to the normal (possibly still-erroring) response — lets tests
     /// exercise the wake-vehicle retry loop without a real network round trip.
     var asleepUntilWakeCallCount = 0
+    /// Set > 0 to have `fetchVehicleState` throw `.decodingFailed` this many times first —
+    /// simulates Tesla's `vehicle_data` returning a sparse/malformed body for the first
+    /// few seconds after `wake_up`, before falling through to `asleepUntilWakeCallCount`
+    /// and then the normal response.
+    var decodingFailuresUntilSuccessCount = 0
 
     private(set) var executedCommands: [ExecutedCommand] = []
     private(set) var wokeVehicles: [String] = []
@@ -43,6 +48,10 @@ final class MockTeslaApiClient: TeslaApiClienting {
     func fetchVehicleState(vin: String) async throws -> TeslaVehicleState {
         if let errorToThrow {
             throw errorToThrow
+        }
+        if decodingFailuresUntilSuccessCount > 0 {
+            decodingFailuresUntilSuccessCount -= 1
+            throw TeslaApiError.decodingFailed("simulated sparse response")
         }
         if asleepUntilWakeCallCount > 0 {
             asleepUntilWakeCallCount -= 1

@@ -242,6 +242,42 @@ final class DashboardViewModelTests: XCTestCase {
         XCTAssertEqual(viewModel.loadState, .loaded)
     }
 
+    func test_wakeVehicle_pollsThroughDecodingFailuresThenSucceeds() async {
+        // Reproduces the real device symptom: Tesla's vehicle_data intermittently
+        // returns a sparse/malformed body for the first few seconds after wake_up
+        // ("Could not decode the Tesla Fleet API response: ... it is missing"),
+        // before telemetry fully populates.
+        let api = MockTeslaApiClient(vehicles: [.preview], vehicleStates: [TeslaVehicle.preview.vin: .preview])
+        api.asleepUntilWakeCallCount = 1
+        let viewModel = DashboardViewModel(
+            apiClient: api, securityManager: MockSecurityManager(),
+            wakePollIntervalNanoseconds: 0, maxWakePollAttempts: 5
+        )
+        await viewModel.loadData()
+        XCTAssertEqual(viewModel.loadState, .asleep)
+
+        api.decodingFailuresUntilSuccessCount = 1
+        await viewModel.wakeVehicle()
+
+        XCTAssertEqual(viewModel.loadState, .loaded)
+    }
+
+    func test_wakeVehicle_persistentDecodingFailures_endsInAsleepStateNotError() async {
+        let api = MockTeslaApiClient(vehicles: [.preview], vehicleStates: [TeslaVehicle.preview.vin: .preview])
+        let viewModel = DashboardViewModel(
+            apiClient: api, securityManager: MockSecurityManager(),
+            wakePollIntervalNanoseconds: 0, maxWakePollAttempts: 3
+        )
+        await viewModel.loadData()
+        XCTAssertEqual(viewModel.loadState, .loaded)
+
+        api.decodingFailuresUntilSuccessCount = .max
+        await viewModel.wakeVehicle()
+
+        XCTAssertEqual(viewModel.loadState, .asleep)
+        XCTAssertFalse(viewModel.isWaking)
+    }
+
     func test_wakeVehicle_stillAsleepAfterMaxAttempts_endsInAsleepState() async {
         let api = MockTeslaApiClient(vehicles: [.preview], vehicleStates: [TeslaVehicle.preview.vin: .preview])
         api.asleepUntilWakeCallCount = .max

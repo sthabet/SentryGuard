@@ -90,19 +90,7 @@ final class DashboardViewModel {
             }
             vehicle = activeVehicle
             let fetchedState = try await apiClient.fetchVehicleState(vin: activeVehicle.vin)
-            vehicleState = fetchedState
-            loadState = .loaded
-
-            // Widgets are 100% read-only (CLAUDE.md rule 1) and never poll the vehicle
-            // themselves (rule 3) — this is the only channel that refreshes their cache.
-            WidgetVehicleStore.save(CachedVehicleSnapshot(
-                vin: activeVehicle.vin,
-                vehicleDisplayName: activeVehicle.displayName,
-                vehicleModelName: activeVehicle.modelName,
-                vehicleState: fetchedState,
-                lastUpdated: Date()
-            ))
-            WidgetCenter.shared.reloadAllTimelines()
+            applyFetchedState(fetchedState, for: activeVehicle)
         } catch {
             loadState = Self.mapError(error)
         }
@@ -116,25 +104,41 @@ final class DashboardViewModel {
     /// isn't security-sensitive (it can't unlock, move, or expose the vehicle), it just
     /// lets the dashboard show live data, matching Tesla's own app.
     func wakeVehicle() async {
-        guard let vin = vehicle?.vin else { return }
+        guard let activeVehicle = vehicle else { return }
         isWaking = true
         defer { isWaking = false }
 
         do {
-            _ = try await apiClient.wakeVehicle(vin: vin)
+            _ = try await apiClient.wakeVehicle(vin: activeVehicle.vin)
         } catch {
             loadState = Self.mapError(error)
             return
         }
 
         // Waking isn't instantaneous — poll a bounded number of times, backing off only
-        // while the vehicle is still reporting asleep. Any other outcome (loaded, or a
-        // different error) ends the loop immediately.
+        // while the vehicle is still coming online. Right after `wake_up`, Tesla's
+        // `vehicle_data` is known to intermittently 408 *or* return a sparse/malformed
+        // body before telemetry fully populates — both `.vehicleAsleep` and
+        // `.decodingFailed` are treated as "still waking" here, not a hard failure. Any
+        // other error ends the loop immediately.
         for attempt in 1...maxWakePollAttempts {
-            await loadData()
-            guard loadState == .asleep else { return }
+            do {
+                let fetchedState = try await apiClient.fetchVehicleState(vin: activeVehicle.vin)
+                applyFetchedState(fetchedState, for: activeVehicle)
+                return
+            } catch TeslaApiError.vehicleAsleep {
+                // fall through to retry below
+            } catch TeslaApiError.decodingFailed {
+                // fall through to retry below
+            } catch {
+                loadState = Self.mapError(error)
+                return
+            }
+
             if attempt < maxWakePollAttempts {
                 try? await Task.sleep(nanoseconds: wakePollIntervalNanoseconds)
+            } else {
+                loadState = .asleep
             }
         }
     }
@@ -148,6 +152,22 @@ final class DashboardViewModel {
     }
 
     // MARK: - Private
+
+    private func applyFetchedState(_ state: TeslaVehicleState, for activeVehicle: TeslaVehicle) {
+        vehicleState = state
+        loadState = .loaded
+
+        // Widgets are 100% read-only (CLAUDE.md rule 1) and never poll the vehicle
+        // themselves (rule 3) — this is the only channel that refreshes their cache.
+        WidgetVehicleStore.save(CachedVehicleSnapshot(
+            vin: activeVehicle.vin,
+            vehicleDisplayName: activeVehicle.displayName,
+            vehicleModelName: activeVehicle.modelName,
+            vehicleState: state,
+            lastUpdated: Date()
+        ))
+        WidgetCenter.shared.reloadAllTimelines()
+    }
 
     private static func mapError(_ error: Error) -> DashboardLoadState {
         if let urlError = error as? URLError, urlError.code == .notConnectedToInternet {
