@@ -39,9 +39,14 @@ final class TeslaApiClient: TeslaApiClienting {
     }
 
     func fetchVehicleState(vin: String) async throws -> TeslaVehicleState {
+        // `endpoints` is required — Tesla's Fleet API omits `charge_state`/`vehicle_state`
+        // from the response entirely without it (rather than erroring), which is what was
+        // producing "Could not decode ... it is missing" on every single call, asleep or
+        // not: `TeslaVehicleState.init(from:)` requires both of those nested objects.
         let envelope: TeslaAPIResponse<TeslaVehicleState> = try await send(
             path: "/api/1/vehicles/\(vin)/vehicle_data",
-            method: "GET"
+            method: "GET",
+            queryItems: [URLQueryItem(name: "endpoints", value: "charge_state;vehicle_state")]
         )
         return envelope.response
     }
@@ -69,11 +74,17 @@ final class TeslaApiClient: TeslaApiClienting {
         path: String,
         method: String,
         body: [String: Any]? = nil,
+        queryItems: [URLQueryItem]? = nil,
         isRetryAfterRefresh: Bool = false
     ) async throws -> T {
         let accessToken = try authService.currentAccessToken()
 
-        var request = URLRequest(url: baseURL.appending(path: path))
+        var url = baseURL.appending(path: path)
+        if let queryItems, var components = URLComponents(url: url, resolvingAgainstBaseURL: false) {
+            components.queryItems = queryItems
+            url = components.url ?? url
+        }
+        var request = URLRequest(url: url)
         request.httpMethod = method
         request.setValue("Bearer \(accessToken)", forHTTPHeaderField: "Authorization")
         request.setValue("application/json", forHTTPHeaderField: "Accept")
@@ -93,7 +104,9 @@ final class TeslaApiClient: TeslaApiClienting {
                 throw TeslaApiError.notAuthenticated
             }
             try await authService.refreshTokensIfNeeded()
-            return try await send(path: path, method: method, body: body, isRetryAfterRefresh: true)
+            return try await send(
+                path: path, method: method, body: body, queryItems: queryItems, isRetryAfterRefresh: true
+            )
         }
 
         if httpResponse.statusCode == 408 {
@@ -108,7 +121,11 @@ final class TeslaApiClient: TeslaApiClienting {
         do {
             return try JSONDecoder().decode(T.self, from: data)
         } catch {
-            throw TeslaApiError.decodingFailed(error.localizedDescription)
+            // Include the raw body so a mismatch between our DTOs and Tesla's actual
+            // response shape is diagnosable from the on-screen error alone, without
+            // needing an Xcode console attached to the device.
+            let bodyString = String(data: data, encoding: .utf8) ?? "<non-UTF8 body>"
+            throw TeslaApiError.decodingFailed("\(error.localizedDescription) — raw response: \(bodyString.prefix(500))")
         }
     }
 }

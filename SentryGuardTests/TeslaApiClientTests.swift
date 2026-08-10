@@ -64,6 +64,34 @@ final class TeslaApiClientTests: XCTestCase {
         XCTAssertEqual(capturedRequest.request?.url?.path, "/api/1/vehicles/VIN123/vehicle_data")
     }
 
+    func test_fetchVehicleState_requestsChargeStateAndVehicleStateEndpoints() async throws {
+        // Regression test: omitting `endpoints` doesn't error, it just silently drops
+        // charge_state/vehicle_state from the response — which then fails to decode with
+        // a confusing "data is missing" error far from this actual cause.
+        let capturedRequest = RequestCapture()
+        let json = Data("""
+        {"response":{
+            "vehicle_state":{"locked":true,"sentry_mode":false},
+            "charge_state":{"battery_level":81,"charge_port_latch":"Engaged","charging_state":"Disconnected","est_battery_range":215.5}
+        }}
+        """.utf8)
+
+        let session = stubbedSession { request in
+            capturedRequest.request = request
+            return (makeResponse(for: request, statusCode: 200), json)
+        }
+        let auth = SpyTeslaAuthService(accessToken: "seed-token")
+        let client = TeslaApiClient(authService: auth, urlSession: session)
+
+        _ = try await client.fetchVehicleState(vin: "VIN123")
+
+        let components = try XCTUnwrap(
+            capturedRequest.request?.url.flatMap { URLComponents(url: $0, resolvingAgainstBaseURL: false) }
+        )
+        let endpointsValue = components.queryItems?.first(where: { $0.name == "endpoints" })?.value
+        XCTAssertEqual(endpointsValue, "charge_state;vehicle_state")
+    }
+
     // MARK: - executeCommand
 
     func test_executeCommand_honkHorn_postsToCorrectEndpointWithNoBody() async throws {
